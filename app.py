@@ -18,17 +18,20 @@ def index():
     cc = request.form['cc']
     bcc = request.form['bcc']
     
-    msg = Message(request.form['subject'],sender=('Pune Management Association','pmacoe.it@gmail.com'),reply_to='pmacoe.it@gmail.com', recipients=email.split(','))
-    msg.sender == "Pune Management Association <pmacoe.it@gmail.com>"
-    msg.cc = cc.split(',')
-    msg.bcc = bcc.split(',')
-    msg.body = request.form['body']
-    msg.html = request.form['html']
-    file = request.files['file']
-    msg.attach(file.filename,"application/pdf",file.read())  
-    print(file.filename)
-    mail.send(msg)
-
+    try:
+        msg = Message(request.form['subject'],sender=('Pune Management Association','pmacoe.it@gmail.com'),reply_to='pmacoe.it@gmail.com', recipients=email.split(','))
+        msg.sender == "Pune Management Association <pmacoe.it@gmail.com>"
+        msg.cc = cc.split(',')
+        msg.bcc = bcc.split(',')
+        msg.body = request.form['body']
+        msg.html = request.form['html']
+        file = request.files['file']
+        msg.attach(file.filename,"application/pdf",file.read())  
+        print(file.filename)
+        mail.send(msg)
+    except exception as e:
+        return '<h1>Error - {}</h1>'.format(e)
+        
     return '<h1>Mail sent to {}</h1>'.format(email)
 
 
